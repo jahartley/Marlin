@@ -73,6 +73,10 @@
   #include "../feature/bedlevel/bdl/bdl.h"
 #endif
 
+#if HAS_CUTTER
+  #include "../feature/spindle_laser.h"
+#endif
+
 Motion motion;
 
 // Relative Mode. Enable with G91, disable with G90.
@@ -211,6 +215,13 @@ int16_t Motion::feedrate_percentage = 100;
  * Output the current position to serial
  */
 
+#if HAS_CUTTER
+  inline void report_cutter_status() {
+    SERIAL_ECHOPGM(" S:", cutter.unitPower);
+    SERIAL_ECHOPGM(" F:", MMS_TO_MMM(Motion::feedrate_mm_s));
+  }
+#endif
+
 inline void report_more_positions() {
   stepper.report_positions();
   TERN_(IS_SCARA, scara_report_positions());
@@ -227,6 +238,9 @@ inline void report_logical_position(const xyze_pos_t &rpos) {
       SP_I_LBL, lpos.i,  SP_J_LBL, lpos.j,  SP_K_LBL, lpos.k,
       SP_U_LBL, lpos.u,  SP_V_LBL, lpos.v,  SP_W_LBL, lpos.w
     ));
+    #if HAS_CUTTER
+      report_cutter_status();
+    #endif
   #endif
 }
 
@@ -618,6 +632,10 @@ void Motion::report_position_projected() {
       SP_I_LBL, lpos.i,  SP_J_LBL, lpos.j,  SP_K_LBL, lpos.k,
       SP_U_LBL, lpos.u,  SP_V_LBL, lpos.v,  SP_W_LBL, lpos.w
     ));
+
+    #if HAS_CUTTER
+      report_cutter_status();
+    #endif
 
     report_more_positions();
     report_current_grblstate_moving();
