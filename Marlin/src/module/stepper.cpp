@@ -205,7 +205,7 @@ uint32_t Stepper::acceleration_time, Stepper::deceleration_time;
 #if ENABLED(SOFT_FEED_HOLD)
   uint32_t Stepper::frozen_time;        // How much time has passed since frozen_state was triggered?
   #if ENABLED(LASER_FEATURE)
-    uint8_t frozen_last_laser_power;    // Saved laser power prior to halting motion
+    uint8_t Stepper::frozen_last_laser_power;    // Saved laser power prior to halting motion
   #endif
 #endif
 
