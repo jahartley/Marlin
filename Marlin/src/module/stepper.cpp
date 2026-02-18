@@ -3922,7 +3922,7 @@ void Stepper::report_positions() {
     #endif
 
     #if ENABLED(REALTIME_REPORTING_COMMANDS)
-      set_and_report_grblstate(state ? M_HOLD : M_RUNNING);
+      Motion::set_and_report_grblstate(state ? M_HOLD : M_RUNNING);
     #endif
   }
 
