@@ -583,6 +583,14 @@ class Stepper {
       static void shaping_isr();
     #endif
 
+    // Get the nominal feedrate of the current block
+    static float get_nominal_feedrate();
+
+    // Get the nominal power of the current block
+    #if HAS_CUTTER
+      static cutter_power_t get_nominal_power();
+    #endif
+
     #if ENABLED(LIN_ADVANCE)
       // The Linear advance ISR phase
       static void advance_isr();

@@ -32,6 +32,7 @@
 #include "../gcode/gcode.h"
 #include "../lcd/marlinui.h"
 #include "../inc/MarlinConfig.h"
+#include "../feature/spindle_laser.h"
 
 #if IS_SCARA
   #include "../libs/buzzer.h"
@@ -217,8 +218,13 @@ int16_t Motion::feedrate_percentage = 100;
 
 #if HAS_CUTTER
   inline void report_cutter_status() {
-    SERIAL_ECHOPGM(" S:", cutter.unitPower);
-    SERIAL_ECHOPGM(" F:", MMS_TO_MMM(Motion::feedrate_mm_s));
+    SERIAL_ECHOPGM(" S:", cutter_power2str(stepper.get_nominal_power()));
+    // Note: MMS_TO_MMM is usually a macro but if needed for float:
+    #if ENABLED(REPORT_FEEDRATE_MM_S)
+      SERIAL_ECHOPGM(" F:", stepper.get_nominal_feedrate());
+    #else
+      SERIAL_ECHOPGM(" F:", mm_s_to_mm_min(stepper.get_nominal_feedrate()));
+    #endif
   }
 #endif
 
@@ -613,6 +619,8 @@ void Motion::report_position_projected() {
 #if ENABLED(REALTIME_REPORTING_COMMANDS)
 
   M_StateEnum Motion::M_State_grbl = M_INIT;
+
+
 
   /**
    * Output the current grbl compatible state to serial while moving
