@@ -33,6 +33,7 @@
 #include "../lcd/marlinui.h"
 #include "../inc/MarlinConfig.h"
 #include "../feature/spindle_laser.h"
+#include "../libs/numtostr.h"
 
 #if IS_SCARA
   #include "../libs/buzzer.h"
