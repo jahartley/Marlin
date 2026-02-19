@@ -3617,6 +3617,23 @@ void Stepper::report_positions() {
   report_a_position(pos);
 }
 
+extern float MMS_TO_MMM(float mms);
+
+float Stepper::get_nominal_feedrate() {
+  return current_block ? current_block->nominal_speed : 0;
+}
+
+#if HAS_CUTTER
+  cutter_power_t Stepper::get_nominal_power() {
+    if (!current_block) return 0;
+    #if ENABLED(LASER_FEATURE)
+      return current_block->laser.power;
+    #else
+      return current_block->cutter_power;
+    #endif
+  }
+#endif
+
 #if ENABLED(FT_MOTION)
 
   void Stepper::ftMotion_syncPosition() {
