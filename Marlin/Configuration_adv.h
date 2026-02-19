@@ -2846,7 +2846,7 @@
  * Report Feedrate in mm/s instead of the standard mm/min.
  * Useful for laser/CNC software that expects mm/s.
  */
-//#define REPORT_FEEDRATE_MM_S // Report feedrate in mm/s
+#define REPORT_FEEDRATE_MM_S // Report feedrate in mm/s
 
 /**
  * Bad Serial-connections can miss a received command by sending an 'ok'
