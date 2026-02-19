@@ -3617,7 +3617,6 @@ void Stepper::report_positions() {
   report_a_position(pos);
 }
 
-extern float MMS_TO_MMM(float mms);
 
 float Stepper::get_nominal_feedrate() {
   return current_block ? current_block->nominal_speed : 0;
