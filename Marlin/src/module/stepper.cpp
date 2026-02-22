@@ -436,11 +436,11 @@ xyze_int8_t Stepper::count_direction{0};
   #endif
 #elif ENABLED(DUAL_X_CARRIAGE)
   #define X_APPLY_DIR(FWD,ALWAYS) do{ \
-    if (extruder_duplication_enabled || ALWAYS) { X_DIR_WRITE(FWD); X2_DIR_WRITE((FWD) ^ idex_mirrored_mode); } \
+    if (motion.extruder_duplication || ALWAYS) { X_DIR_WRITE(FWD); X2_DIR_WRITE((FWD) ^ motion.idex_mirrored_mode); } \
     else if (last_moved_extruder) X2_DIR_WRITE(FWD); else X_DIR_WRITE(FWD); \
   }while(0)
   #define X_APPLY_STEP(STATE,ALWAYS) do{ \
-    if (extruder_duplication_enabled || ALWAYS) { X_STEP_WRITE(STATE); X2_STEP_WRITE(STATE); } \
+    if (motion.extruder_duplication || ALWAYS) { X_STEP_WRITE(STATE); X2_STEP_WRITE(STATE); } \
     else if (last_moved_extruder) X2_STEP_WRITE(STATE); else X_STEP_WRITE(STATE); \
   }while(0)
 #elif HAS_X_AXIS
@@ -3617,7 +3617,6 @@ void Stepper::report_positions() {
   report_a_position(pos);
 }
 
-extern float MMS_TO_MMM(float mms);
 
 float Stepper::get_nominal_feedrate() {
   return current_block ? current_block->nominal_speed : 0;
