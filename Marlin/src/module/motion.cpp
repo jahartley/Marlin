@@ -32,8 +32,6 @@
 #include "../gcode/gcode.h"
 #include "../lcd/marlinui.h"
 #include "../inc/MarlinConfig.h"
-#include "../feature/spindle_laser.h"
-#include "../libs/numtostr.h"
 
 #if IS_SCARA
   #include "../libs/buzzer.h"
@@ -237,7 +235,7 @@ int16_t Motion::feedrate_percentage = 100;
 
 #if HAS_CUTTER
   inline void report_cutter_status() {
-    SERIAL_ECHOPGM(" S:", cutter_power2str(stepper.get_nominal_power()));
+    SERIAL_ECHOPGM(" S:", (int)stepper.get_nominal_power());
     // Note: MMS_TO_MMM is usually a macro but if needed for float:
     #if ENABLED(REPORT_FEEDRATE_MM_S)
       SERIAL_ECHOPGM(" F:", stepper.get_nominal_feedrate());
